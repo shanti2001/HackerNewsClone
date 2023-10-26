@@ -522,13 +522,10 @@ color:black
 					        <td colspan="1"></td>
 					        <td class="subtext">
 					            <span class="subline">
-					                <span >published by</span>
-					                <a th:href="'user?id='+${item.user.id}" ><span th:text="${item.user.name}"></span></a>
+					               
 					                 <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 				                 
-					                <span ></span>
-					                | <a  th:href="'hide?id='+${item.id}" class="clicky hider">hide</a>
-					                | <a href="item?id=38020109">67 &nbsp;comments</a>
+					                
 					            </span>
 					        </td>
 					    </tr>

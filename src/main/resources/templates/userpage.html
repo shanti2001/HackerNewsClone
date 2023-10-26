@@ -1,7 +1,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Hacker News</title>
-<style>
+    <head>
+        <meta name="referrer" content="origin">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Hacker News</title>
+        <style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 10pt;
@@ -472,17 +475,15 @@ color:black
 }
 
 </style>
-</head>
-<body>
-	
-		<table id="hnmain" border="0" cellpadding="0" cellspacing="0"
-			width="85%" bgcolor="#f6f6ef" style="padding-left: 10%">
-			<tr>
-				<td bgcolor="#ff6600">
-					<table border="0" cellpadding="0" cellspacing="0" width="100%"
-						style="padding: 2px">
-						<tr>
-							<td style="line-height: 12pt; height: 10px;"><span
+    </head>
+    <body>
+        <center>
+            <table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
+                <tr>
+                    <td bgcolor="#ff6600">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:2px">
+                            <tr>
+                                <td style="line-height: 12pt; height: 10px;"><span
 								class="pagetop"> <a href="/" class="hnname">Home</a> <b
 									class="hnname"> <a href="/news">Hacker News</a>
 								</b> <a href="/newest">new</a> | <a href="/front">past</a> | <a
@@ -493,68 +494,96 @@ color:black
 							<td style="text-align: right; padding-right: 4px;"><span
 								class="pagetop"> <a href="login?goto=news">login</a>
 							</span></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr class="spacer" style="height:5px"></tr>
-			<tr>
-				<table th:each="item, index : ${contents}" style="text-align: left; padding-left: 10%">
-					    <tr >
-					        <td><span th:text="${index.index+1}"></span><span>.</span></td>
-					        <td style="display: inline-block;">
-					            <span th:if="${not #strings.isEmpty(item.url)}">
-					                <a th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					            <span th:if="${#strings.isEmpty(item.url)}">
-					                <a href="/" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					        </td>
-					        <td style="display: inline-block;">
-					            <a href="/news" th:attr="rel='noopener noreferrer'">
-					                <span th:if="${not #strings.isEmpty(item.url)}">
-					                    (<span th:text="${item.url.split('/')[2]}"></span>)
-					                </span>
-					            </a>
-					        </td>
-					    </tr>
-					    <tr>
-					        <td colspan="1"></td>
-					        <td class="subtext">
-					            <span class="subline">
-					                <span >published by</span>
-					                <a th:href="'user?id='+${item.user.id}" ><span th:text="${item.user.name}"></span></a>
-					                 <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
-				                 
-					                <span ></span>
-					                | <a  th:href="'hide?id='+${item.id}" class="clicky hider">hide</a>
-					                | <a href="item?id=38020109">67 &nbsp;comments</a>
-					            </span>
-					        </td>
-					    </tr>
-					</table>
-				</tr>
-
-			
-
-			<tr>
-				<td><br>
-					<center>
-						<span class="yclinks"> <a href="newsguidelines.html">Guidelines</a>
-							| <a href="newsfaq.html">FAQ</a> | <a href="lists">Lists</a> | <a
-							href="https://github.com/HackerNews/API">API</a> | <a
-							href="security.html">Security</a> | <a
-							href="https://www.ycombinator.com/legal/">Legal</a> | <a
-							href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
-							href="mailto:hn@ycombinator.com">Contact</a>
-						</span> <br> <br>
-						<form method="get" action="//hn.algolia.com/">
-							Search: <input type="text" name="q" size="17" autocorrect="off"
-								spellcheck="false" autocapitalize="off" autocomplete="false">
-						</form>
-					</center></td>
-			</tr>
-		</table>
-	
-</body>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr id="pagespace" title="Profile: shanti2001" style="height:10px"></tr>
+                <tr>
+                    <td>
+                        <form class="profileform" action="/xuser" method="post">
+                            <input type="hidden" name="id" value="shanti2001">
+                            <input type="hidden" name="hmac" value="230e77ee0ec701573e9e97e1b79604296c0988fa">
+                            <table border="0">
+                                <tr class="athing">
+                                    <td valign="top">user:</td>
+                                    <td timestamp="1698132666">
+                                        <a th:href="'userpage?id='+${user.id}"  class="hnuser">
+                                            <font color="#3c963c"><span th:text="${user.name}"></span></font>
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td valign="top">about:</td>
+                                    <td style="overflow:hidden">
+                                        <textarea name="about" rows="5" cols="60" wrap="virtual"></textarea>
+                                        &nbsp;
+                                        <a href="formatdoc" tabindex="-1">
+                                            <font size="-2" color="#afafaf">help</font>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <font size="2">Only admins see your email below. To share publicly, add to the 'about' box.</font>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">email:</td>
+                                    <td>
+                                        <input type="text" name="email" th:value="${user.email}" size="60">
+                                    </td>
+                                </tr>
+                                
+                                
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a th:href="'submitted?id='+${user.id}">
+                                        <u>submissions</u>
+                                    </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a th:href="'hidden?id='+${user.id}">
+                                        <u>hidden</u>
+                                    </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="threads?id=shanti2001">
+                                            <u>comments</u>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <a href="upvoted?id=shanti2001">
+                                            <u>upvoted submissions</u>
+                                        </a>
+                                        / 
+                                        <a href="upvoted?id=shanti2001&amp;comments=t">
+                                            <u>comments</u>
+                                        </a>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                            <br>
+                            <input type="submit" value="update">
+                        </form>
+                        <br>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
 </html>

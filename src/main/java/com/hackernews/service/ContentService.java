@@ -2,8 +2,10 @@ package com.hackernews.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.hackernews.entity.Content;
@@ -21,8 +23,9 @@ public class ContentService {
 	public void addContent(Content content) {
 		
 		content.setSubmitTime(new Timestamp(new Date().getTime()));
-		content.setUser(userRepository.findAll().get(0));
+		content.setUser(userRepository.findAll().get(1));
 		
 		contentRepositroy.save(content);
 	}
+	
 }
