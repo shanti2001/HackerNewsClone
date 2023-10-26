@@ -527,7 +527,9 @@ color:black
 					                 <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 				                 
 					                <span ></span>
-					                
+					                | <span th:if="${#lists.contains(user.upVoteContent, item)}"><a th:href="'unvote?id='+${item.id}">un-vote</a></span>
+					                  <span th:unless="${#lists.contains(user.upVoteContent, item)}"><a th:href="'upvote?id='+${item.id}">up-vote</a></span>
+					                | <a  th:href="'hide?id='+${item.id}" class="clicky hider">hide</a>
 					                | <a href="item?id=38020109">67 &nbsp;comments</a>
 					            </span>
 					        </td>

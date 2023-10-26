@@ -502,6 +502,7 @@ color:black
 				<table th:each="item, index : ${contents}" style="text-align: left; padding-left: 10%">
 					    <tr >
 					        <td><span th:text="${index.index+1}"></span><span>.</span></td>
+					   
 					        <td style="display: inline-block;">
 					            <span th:if="${not #strings.isEmpty(item.url)}">
 					                <a th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
@@ -525,10 +526,10 @@ color:black
 					                <span >published by</span>
 					                <a th:href="'user?id='+${item.user.id}" ><span th:text="${item.user.name}"></span></a>
 					                 <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
-				                 	<span ></span>
-					                 |  <a  th:href="'unhide?id='+${item.id}" class="clicky hider">un-hide</a>
+				                 
+					                <span ></span>
+					                | <span th:if="${#lists.contains(user.upVoteContent, item)}"><a th:href="'unvoted?id='+${item.id}">un-vote</a></span>
 					                | <a href="item?id=38020109">67 &nbsp;comments</a>
-					               
 					            </span>
 					        </td>
 					    </tr>

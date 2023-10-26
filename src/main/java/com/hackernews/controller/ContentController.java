@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.hackernews.entity.Content;
+import com.hackernews.entity.User;
 import com.hackernews.repository.ContentRepositroy;
+import com.hackernews.repository.UserRepository;
 import com.hackernews.service.ContentService;
 
 
@@ -21,6 +23,8 @@ public class ContentController {
 	ContentService contentService;
 	@Autowired
 	ContentRepositroy contentRepositroy;
+	@Autowired
+	UserRepository userRepository;
 	
 	@GetMapping("/submit")
 	public String newContent() {
@@ -35,19 +39,25 @@ public class ContentController {
 	@GetMapping("/ask")
 	public String askContent(Model model) {
 		List<Content> contents = contentRepositroy.getAllAsk();
+		User user = userRepository.findById(1).get();
 		model.addAttribute("contents",contents);
+		model.addAttribute("user",user);
 		return "showAsk";
 	}
 	@GetMapping("/show")
 	public String showContent(Model model) {
 		List<Content> contents = contentRepositroy.getAllShow();
+		User user = userRepository.findById(1).get();
 		model.addAttribute("contents",contents);
+		model.addAttribute("user",user);
 		return "showAsk";
 	}
 	@GetMapping("/job")
 	public String jobContent(Model model) {
 		List<Content> contents = contentRepositroy.getAllJob();
+		User user = userRepository.findById(1).get();
 		model.addAttribute("contents",contents);
+		model.addAttribute("user",user);
 		return "job";
 	}
 }
