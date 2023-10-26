@@ -1,6 +1,7 @@
 package com.hackernews.entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -12,6 +13,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 @Entity
 @Table(name="contents")
@@ -116,6 +119,5 @@ public class Content {
 		super();
 	}
 
-	
 	
 }
