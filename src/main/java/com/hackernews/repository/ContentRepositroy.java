@@ -9,7 +9,7 @@ import com.hackernews.entity.Content;
 
 public interface ContentRepositroy extends JpaRepository<Content, Integer>{
 	
-	@Query("select c from Content c where c.catagory= 'show' or c.catagory='normal'")
+	@Query("select c from Content c where c.catagory= 'show' or c.catagory='normal' or c.catagory = null")
 	public List<Content> getAllShowAndNormal();
 	
 	@Query("select c from Content c where c.catagory= 'ask'")

@@ -13,7 +13,7 @@
 
 td {
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #828282;
 }
 
@@ -511,7 +511,7 @@ color:black
                             
                             <tr>
                                 <td valign="top">about:</td>
-                                <td style="overflow:hidden">Coder who likes math</td>
+                                <td style="overflow:hidden"><span th:text="${user.about}"></span></td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -524,7 +524,7 @@ color:black
                             <tr>
                                 <td></td>
                                 <td>
-                                    <a href="threads?id=qrian">
+                                    <a th:href="'threads?id='+${user.id}">
                                         <u>comments</u>
                                     </a>
                                 </td>

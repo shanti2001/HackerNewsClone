@@ -4,7 +4,7 @@
 <style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 15pt;
+	font-size: 10pt;
 	color: #828282;
 }
 
@@ -498,43 +498,31 @@ color:black
 				</td>
 			</tr>
 			<tr class="spacer" style="height:5px"></tr>
+			
 			<tr>
-				<table th:each="item, index : ${contents}" style="text-align: left; padding-left: 10%; ">
-					    <tr >
-					        <td><span th:text="${index.index+1}"></span><span>.</span></td>
-					   
-					        <td style="display: inline-block;">
-					            <span th:if="${not #strings.isEmpty(item.url)}">
-					                <a th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					            <span th:if="${#strings.isEmpty(item.url)}">
-					                <a href="/" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					        </td>
-					        <td style="display: inline-block;">
-					            <a href="/news" th:attr="rel='noopener noreferrer'">
-					                <span th:if="${not #strings.isEmpty(item.url)}">
-					                    (<span th:text="${item.url.split('/')[2]}"></span>)
-					                </span>
-					            </a>
-					        </td>
-					    </tr>
-					    <tr>
-					        <td colspan="1"></td>
-					        <td class="subtext">
-					            <span class="subline">
-					                <span >published by</span>
+				<table th:each="item, index : ${comments}" style="text-align: left; padding-left: 10%">
+						<tr>
+					        
+					        <td>
+					            <span class="subtext">
+					                
 					                <a th:href="'user?id='+${item.user.id}" ><span th:text="${item.user.name}"></span></a>
-					                <a th:href="'showcontent?id='+${item.id}"><span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span></a> 
-				                 
-					                <span ></span>
-					                | <span th:if="${#lists.contains(user.upVoteContent, item)}"><a th:href="'unvote?id='+${item.id}">un-vote</a></span>
-					                  <span th:unless="${#lists.contains(user.upVoteContent, item)}"><a th:href="'upvote?id='+${item.id}">up-vote</a></span>
-					                | <a  th:href="'hide?id='+${item.id}" class="clicky hider">hide</a>
-					                | <a th:href="'showcontent?id='+${item.id}">comments</a>
+					                | <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
+					           
+					            <span ></span>
+					                | <span th:if="${#lists.contains(user.upVoteComment, item)}"><a th:href="'unvotecomment?id='+${item.id}">un-vote</a></span>
+					                  <span th:unless="${#lists.contains(user.upVoteComment, item)}"><a th:href="'upvotecomment?id='+${item.id}">up-vote</a></span>
+					            	| on:
+					           		<a th:href="'showcontent?id='+${item.content.id}"><span th:text="${item.content.title}"></span></a>
 					            </span>
+					       </td>
+					    </tr>
+					    <tr >
+					   		<td>
+					        <span th:text="${item.comment}"></span>
 					        </td>
 					    </tr>
+					    
 					</table>
 				</tr>
 

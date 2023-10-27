@@ -2,6 +2,7 @@ package com.hackernews.entity;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,6 +23,8 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	@Column(length=2000)
+	private String about;
 
 	@OneToMany(mappedBy = "user")
 	private List<Content> contents;
@@ -46,14 +49,14 @@ public class User {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "comment_id")
 			)
-	private List<Content> upVoteComment;
+	private List<Comment> upVoteComment;
 
 	public User() {
 		super();
 	}
 
 	public User(int id, String name, String email, String password, List<Content> contents, List<Comment> comments,
-			List<Integer> hiddenConnentIds, List<Content> upVoteContent, List<Content> upVoteComment) {
+			List<Integer> hiddenConnentIds, List<Content> upVoteContent, List<Comment> upVoteComment) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -130,13 +133,22 @@ public class User {
 		this.upVoteContent = upVoteContent;
 	}
 
-	public List<Content> getUpVoteComment() {
+	public List<Comment> getUpVoteComment() {
 		return upVoteComment;
 	}
 
-	public void setUpVoteComment(List<Content> upVoteComment) {
+	public void setUpVoteComment(List<Comment> upVoteComment) {
 		this.upVoteComment = upVoteComment;
 	}
+
+	public String getAbout() {
+		return about;
+	}
+
+	public void setAbout(String about) {
+		this.about = about;
+	}
+	
 
 
 

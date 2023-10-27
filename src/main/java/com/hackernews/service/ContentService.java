@@ -23,7 +23,7 @@ public class ContentService {
 	public void addContent(Content content) {
 		
 		content.setSubmitTime(new Timestamp(new Date().getTime()));
-		content.setUser(userRepository.findAll().get(1));
+		content.setUser(userRepository.findAll().get(0));
 		
 		contentRepositroy.save(content);
 	}

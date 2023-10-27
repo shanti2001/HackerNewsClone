@@ -13,7 +13,7 @@ body {
 
 td {
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #828282;
 }
 
@@ -501,9 +501,8 @@ color:black
                 <tr id="pagespace" title="Profile: shanti2001" style="height:10px"></tr>
                 <tr>
                     <td>
-                        <form class="profileform" action="/xuser" method="post">
-                            <input type="hidden" name="id" value="shanti2001">
-                            <input type="hidden" name="hmac" value="230e77ee0ec701573e9e97e1b79604296c0988fa">
+                        <form class="profileform" action="/updateuser" method="post">
+                            <input type="hidden" name="id" th:value="${user.id}">
                             <table border="0">
                                 <tr class="athing">
                                     <td valign="top">user:</td>
@@ -517,11 +516,13 @@ color:black
                                 <tr>
                                     <td valign="top">about:</td>
                                     <td style="overflow:hidden">
-                                        <textarea name="about" rows="5" cols="60" wrap="virtual"></textarea>
-                                        &nbsp;
-                                        <a href="formatdoc" tabindex="-1">
-                                            <font size="-2" color="#afafaf">help</font>
-                                        </a>
+                                    	<span th:if="${user.about !=null}">
+                                        <textarea name="about" rows="5" cols="60" wrap="virtual" th:text="${user.about}"></textarea>
+                                        </span>
+                                        <span th:if="${user.about ==null}">
+                                        <textarea name="about" rows="5" cols="60" wrap="virtual" th:text="${user.about}"></textarea>
+                                        </span>
+                                        
                                     </td>
                                 </tr>
                                 <tr>
@@ -533,7 +534,7 @@ color:black
                                 <tr>
                                     <td valign="top">email:</td>
                                     <td>
-                                        <input type="text" name="email" th:value="${user.email}" size="60">
+                                        <input type="text" name="email" th:value="${user.email}" size="60" th:readonly="true">
                                     </td>
                                 </tr>
                                 
@@ -557,7 +558,7 @@ color:black
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <a href="threads?id=shanti2001">
+                                        <a th:href="'threads?id='+${user.id}">
                                             <u>comments</u>
                                         </a>
                                     </td>
@@ -569,7 +570,7 @@ color:black
                                             <u>upvoted submissions</u>
                                         </a>
                                         / 
-                                        <a href="upvoted?id=shanti2001&amp;comments=t">
+                                        <a th:href="'upvotedcomment?id='+${user.id}">
                                             <u>comments</u>
                                         </a>
                                     </td>

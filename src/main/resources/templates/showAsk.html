@@ -10,7 +10,7 @@ body {
 
 td {
 	font-family: Verdana, Geneva, sans-serif;
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #828282;
 }
 
@@ -529,7 +529,7 @@ color:black
 					                <span ></span>
 					                | <span th:if="${#lists.contains(user.upVoteContent, item)}"><a th:href="'unvote?id='+${item.id}">un-vote</a></span>
 					                  <span th:unless="${#lists.contains(user.upVoteContent, item)}"><a th:href="'upvote?id='+${item.id}">up-vote</a></span>
-					                | <a  th:href="'hide?id='+${item.id}" class="clicky hider">hide</a>
+					                
 					                | <a href="item?id=38020109">67 &nbsp;comments</a>
 					            </span>
 					        </td>
@@ -542,10 +542,8 @@ color:black
 			<tr>
 				<td><br>
 					<center>
-						<span class="yclinks"> <a href="newsguidelines.html">Guidelines</a>
-							| <a href="newsfaq.html">FAQ</a> | <a href="lists">Lists</a> | <a
-							href="https://github.com/HackerNews/API">API</a> | <a
-							href="security.html">Security</a> | <a
+						<span class="yclinks"> <a href="/newsguidelines">Guidelines</a>|<a
+							href="https://github.com/HackerNews/API">API</a> |  <a
 							href="https://www.ycombinator.com/legal/">Legal</a> | <a
 							href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
 							href="mailto:hn@ycombinator.com">Contact</a>

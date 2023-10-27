@@ -1,7 +1,9 @@
 package com.hackernews.entity;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,11 +29,8 @@ public class Comment {
 	@JoinColumn(name = "content")
 	private Content content;
 	
-	@ManyToOne
-    private Comment parentComment;
-    
-    @OneToMany(mappedBy = "parentComment")
-    private List<Comment> childComments;
+	@Column(columnDefinition ="TIMESTAMP")
+	private Timestamp submitTime;
 
 	public Comment(int id, String comment, User user, Content content, Comment parentComment,
 			List<Comment> childComments) {
@@ -40,8 +39,7 @@ public class Comment {
 		this.comment = comment;
 		this.user = user;
 		this.content = content;
-		this.parentComment = parentComment;
-		this.childComments = childComments;
+		
 	}
 
 	public Comment() {
@@ -80,23 +78,14 @@ public class Comment {
 		this.content = content;
 	}
 
-	public Comment getParentComment() {
-		return parentComment;
+	public Timestamp getSubmitTime() {
+		return submitTime;
 	}
 
-	public void setParentComment(Comment parentComment) {
-		this.parentComment = parentComment;
+	public void setSubmitTime(Timestamp submitTime) {
+		this.submitTime = submitTime;
 	}
 
-	public List<Comment> getChildComments() {
-		return childComments;
-	}
-
-	public void setChildComments(List<Comment> childComments) {
-		this.childComments = childComments;
-	}
-    
-    
 	
 	
 	
