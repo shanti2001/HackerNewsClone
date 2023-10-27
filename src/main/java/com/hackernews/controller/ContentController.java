@@ -5,18 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.hackernews.entity.Content;
 import com.hackernews.service.ContentService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -27,6 +25,8 @@ public class ContentController {
 
 	@Autowired
 	ContentRepositroy contentRepositroy;
+
+
 
 	@GetMapping("/submit")
 	public String newContent() {
@@ -60,5 +60,19 @@ public class ContentController {
 		return "past";
 	}
 
+//	@GetMapping("/content/search")
+//	public List<Content> searchContentByKeyword(@RequestParam("keyword") String keyword) {
+//		List<Content> searchResults = contentRepositroy.searchByKeyword(keyword);
+//		return ResponseEntity.ok(searchResults);;
+//	}
+
+	@RequestMapping("/search")
+	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,
+								  Model model) {
+
+		Set<Content> searchResults = contentService.findContentsByTitle(query);
+		model.addAttribute("contents", searchResults);
+		return "home";
+	}
 
 }
