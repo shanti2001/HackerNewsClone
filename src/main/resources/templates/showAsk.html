@@ -467,94 +467,99 @@ table.padtab td {
 		overflow: hidden
 	}
 }
-span{
-color:black
-}
 
+span {
+	color: black
+}
 </style>
 </head>
 <body>
-	
-		<table id="hnmain" border="0" cellpadding="0" cellspacing="0"
-			width="85%" bgcolor="#f6f6ef" style="padding-left: 10%">
-			<tr>
-				<td bgcolor="#ff6600">
-					<table border="0" cellpadding="0" cellspacing="0" width="100%"
-						style="padding: 2px">
-						<tr>
-							<td style="line-height: 12pt; height: 10px;"><span
-								class="pagetop"> <a href="/" class="hnname">Home</a> <b
-									class="hnname"> <a href="/news">Hacker News</a>
-								</b> <a href="/newest">new</a> | <a href="/front">past</a> | <a
-									href="/newcomments">comments</a> | <a href="ask">ask</a> | <a
-									href="/show">show</a> | <a href="/job">jobs</a> | <a
-									href="/submit">submit</a>
-							</span></td>
-							<td style="text-align: right; padding-right: 4px;"><span
-								class="pagetop"> <a href="login?goto=news">login</a>
-							</span></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr class="spacer" style="height:5px"></tr>
-			<tr>
-				<table th:each="item, index : ${contents}" style="text-align: left; padding-left: 10%">
-					    <tr >
-					        <td><span th:text="${index.index+1}"></span><span>.</span></td>
-					        <td style="display: inline-block;">
-					            <span th:if="${not #strings.isEmpty(item.url)}">
-					                <a th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					            <span th:if="${#strings.isEmpty(item.url)}">
-					                <a href="/" th:attr="rel='noopener noreferrer'"><span th:text="${item.title}"></span></a>
-					            </span>
-					        </td>
-					        <td style="display: inline-block;">
-					            <a href="/news" th:attr="rel='noopener noreferrer'">
-					                <span th:if="${not #strings.isEmpty(item.url)}">
-					                    (<span th:text="${item.url.split('/')[2]}"></span>)
-					                </span>
-					            </a>
-					        </td>
-					    </tr>
-					    <tr>
-					        <td colspan="1"></td>
-					        <td class="subtext">
-					            <span class="subline">
-					                <span >published by</span>
-					                <a th:href="'user?id='+${item.user.id}" ><span th:text="${item.user.name}"></span></a>
-					                 <span th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
-				                 
-					                <span ></span>
-					                | <span th:if="${#lists.contains(user.upVoteContent, item)}"><a th:href="'unvote?id='+${item.id}">un-vote</a></span>
-					                  <span th:unless="${#lists.contains(user.upVoteContent, item)}"><a th:href="'upvote?id='+${item.id}">up-vote</a></span>
-					                
-					                | <a href="item?id=38020109">67 &nbsp;comments</a>
-					            </span>
-					        </td>
-					    </tr>
-					</table>
+
+	<table id="hnmain" border="0" cellpadding="0" cellspacing="0"
+		width="85%" bgcolor="#f6f6ef" style="padding-left: 10%">
+		<tr>
+			<td bgcolor="#ff6600">
+				<table border="0" cellpadding="0" cellspacing="0" width="100%"
+					style="padding: 2px">
+					<tr>
+						<td style="line-height: 12pt; height: 10px;"><span
+							class="pagetop"> <a href="/" class="hnname">Home</a> <b
+								class="hnname"> <a href="/news">Hacker News</a>
+							</b> <a href="/newest">new</a> | <a href="/front?dayQuery=1">past</a>
+								| <a href="/newcomments">comments</a> | <a href="/ask">ask</a> |
+								<a href="/show">show</a> | <a href="/job">jobs</a> | <a
+								href="/submit">submit</a>
+						</span></td>
+						<td style="text-align: right; padding-right: 4px;"><span
+							class="pagetop"> <a href="login?goto=news">login</a>
+						</span></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr class="spacer" style="height: 5px"></tr>
+		<tr>
+			<table th:each="item, index : ${contents}"
+				style="text-align: left; padding-left: 10%">
+				<tr>
+					<td><span th:text="${index.index+1}"></span><span>.</span></td>
+					<td style="display: inline-block;"><span
+						th:if="${not #strings.isEmpty(item.url)}"> <a
+							th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span
+								th:text="${item.title}"></span></a>
+					</span> <span th:if="${#strings.isEmpty(item.url)}"> <a href="/"
+							th:attr="rel='noopener noreferrer'"><span
+								th:text="${item.title}"></span></a>
+					</span></td>
+					<td style="display: inline-block;"><a href="/news"
+						th:attr="rel='noopener noreferrer'"> <span
+							th:if="${not #strings.isEmpty(item.url)}"> (<span
+								th:text="${item.url.split('/')[2]}"></span>)
+						</span>
+					</a></td>
 				</tr>
+				<tr>
+					<td colspan="1"></td>
+					<td class="subtext"><span class="subline"> <span>published
+								by</span> <a th:href="'user?id='+${item.user.id}"><span
+								th:text="${item.user.name}"></span></a> <span
+							th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 
-			
+							<span></span> | <span
+							th:if="${#lists.contains(user.upVoteContent, item)}"><a
+								th:href="'unvote?id='+${item.id}">un-vote</a></span> <span
+							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
+								th:href="'upvote?id='+${item.id}">up-vote</a></span> | <a
+							href="item?id=38020109">67 &nbsp;comments</a>
+					</span></td>
+				</tr>
+			</table>
+		</tr>
 
-			<tr>
-				<td><br>
-					<center>
-						<span class="yclinks"> <a href="/newsguidelines">Guidelines</a>|<a
-							href="https://github.com/HackerNews/API">API</a> |  <a
-							href="https://www.ycombinator.com/legal/">Legal</a> | <a
-							href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
-							href="mailto:hn@ycombinator.com">Contact</a>
-						</span> <br> <br>
-						<form method="get" action="//hn.algolia.com/">
-							Search: <input type="text" name="q" size="17" autocorrect="off"
-								spellcheck="false" autocapitalize="off" autocomplete="false">
-						</form>
-					</center></td>
-			</tr>
-		</table>
-	
+
+
+		<tr>
+			<td><br>
+				<table width="100%" cellspacing="0" cellpadding="1"
+					style="text-align: left; padding-left: 10%; padding-right: 15%;">
+					<tr>
+						<td bgcolor="#ff6600"></td>
+					</tr>
+				</table> <br>
+				<center>
+					<span class="yclinks"> <a href="/newsguidelines">Guidelines</a>|<a
+						href="https://github.com/HackerNews/API">API</a> | <a
+						href="https://www.ycombinator.com/legal/">Legal</a> | <a
+						href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
+						href="mailto:hn@ycombinator.com">Contact</a>
+					</span> <br> <br>
+					<form method="get" action="/search">
+						Search: <input type="text" name="q" size="17" autocorrect="off"
+							spellcheck="false" autocapitalize="off" autocomplete="false">
+					</form>
+				</center></td>
+		</tr>
+	</table>
+
 </body>
 </html>
