@@ -19,7 +19,7 @@ import java.util.Set;
 
 @Controller
 public class ContentController {
-	
+
 	@Autowired
 	ContentService contentService;
 
@@ -27,12 +27,11 @@ public class ContentController {
 	ContentRepositroy contentRepositroy;
 
 
-
 	@GetMapping("/submit")
 	public String newContent() {
 		return "newContent";
 	}
-	
+
 	@PostMapping("/addcontent")
 	public String addPost(@ModelAttribute Content content) {
 
@@ -41,16 +40,14 @@ public class ContentController {
 	}
 
 	@GetMapping("/newest")
-	public String sortedPostFromLatestDate(Model model)
-	{
+	public String sortedPostFromLatestDate(Model model) {
 		List<Content> sortedList = contentRepositroy.findAll(Sort.by(Sort.Order.desc("submitTime")));
 		model.addAttribute("contents", sortedList);
 		return "home";
 	}
 
 	@GetMapping("/front")
-	public String sortedPostFromPreviousDate(Model model, @RequestParam("dayQuery") int dayQuery)
-	{
+	public String sortedPostFromPreviousDate(Model model, @RequestParam("dayQuery") int dayQuery) {
 		LocalDate oneDayBefore = LocalDate.now().minusDays(dayQuery);
 		LocalDateTime startOfDay = oneDayBefore.atStartOfDay();
 		LocalDateTime endOfDay = oneDayBefore.atTime(LocalTime.MAX);
@@ -60,19 +57,12 @@ public class ContentController {
 		return "past";
 	}
 
-//	@GetMapping("/content/search")
-//	public List<Content> searchContentByKeyword(@RequestParam("keyword") String keyword) {
-//		List<Content> searchResults = contentRepositroy.searchByKeyword(keyword);
-//		return ResponseEntity.ok(searchResults);;
-//	}
-
 	@RequestMapping("/search")
 	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,
 								  Model model) {
 
 		Set<Content> searchResults = contentService.findContentsByTitle(query);
 		model.addAttribute("contents", searchResults);
-		return "home";
+		return "searchResults";
 	}
-
 }
