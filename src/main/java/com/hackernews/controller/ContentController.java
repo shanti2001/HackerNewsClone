@@ -3,6 +3,7 @@ package com.hackernews.controller;
 import com.hackernews.repository.ContentRepositroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +11,12 @@ import org.springframework.web.bind.annotation.*;
 import com.hackernews.entity.Content;
 import com.hackernews.service.ContentService;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -25,6 +29,8 @@ public class ContentController {
 
 	@Autowired
 	ContentRepositroy contentRepositroy;
+
+	private static LocalDate retainLocalDate;
 
 
 	@GetMapping("/submit")
@@ -47,15 +53,48 @@ public class ContentController {
 	}
 
 	@GetMapping("/front")
-	public String sortedPostFromPreviousDate(Model model, @RequestParam("dayQuery") int dayQuery) {
-		LocalDate oneDayBefore = LocalDate.now().minusDays(dayQuery);
-		LocalDateTime startOfDay = oneDayBefore.atStartOfDay();
-		LocalDateTime endOfDay = oneDayBefore.atTime(LocalTime.MAX);
+	public String sortedPostFromPreviousDate(Model model, @RequestParam(value = "day", required = false) String day) {
+		DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		if(day == null){
+			Date date = new Date();
+			day = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		}
+		LocalDate ld = LocalDate.parse(day, DATEFORMATTER);
+
+		//LocalDate oneDayBefore = LocalDate.now().minusDays(day);
+		LocalDateTime startOfDay = ld.atStartOfDay();
+		LocalDateTime endOfDay = ld.atTime(LocalTime.MAX);
 
 		List<Content> sortedList = contentRepositroy.findAllBySubmitTimeBetween(startOfDay, endOfDay);
 		model.addAttribute("contents", sortedList);
+		model.addAttribute("date",ld);
+		System.out.println(ld);
 		return "past";
 	}
+
+
+//	@GetMapping("/front")
+//	public String sortedPostFromPreviousDate(
+//			Model model,
+//			@RequestParam(name = "day", required = false) int day,
+//			@RequestParam(name = "updatedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate updatedDate) {
+//
+//		LocalDate baseDate = (updatedDate != null) ? updatedDate : LocalDate.now().minusDays(1);
+//
+//		LocalDate oneDayBefore = baseDate.minusDays(day);
+//		LocalDateTime startOfDay = oneDayBefore.atStartOfDay();
+//		LocalDateTime endOfDay = oneDayBefore.atTime(LocalTime.MAX);
+//
+//		List<Content> sortedList = contentRepositroy.findAllBySubmitTimeBetween(startOfDay, endOfDay);
+//		model.addAttribute("contents", sortedList);
+//		model.addAttribute("date", oneDayBefore);
+//		System.out.println(oneDayBefore);
+//		return "past";
+//	}
+
+
+
+
 
 	@RequestMapping("/search")
 	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,

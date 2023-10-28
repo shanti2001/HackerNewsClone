@@ -485,7 +485,10 @@
                     <a href="/" class="hnname">Home</a>
                     <b
                     class="hnname"> <a href="/news">Hacker News</a>
-								</b> <a href="/newest">new</a> | <a href="/front?dayQuery=1">past</a> | <a
+								</b> <a href="/newest">new</a> |
+                    <a href="/front">past</a>
+
+                    | <a
                     href="/newcomments">comments</a> | <a href="ask">ask</a> | <a
                     href="show">show</a> | <a href="jobs">jobs</a> | <a
                     href="/submit">submit</a>
@@ -503,13 +506,13 @@
 
       <table>
           <p> Go back a
-<!--              <u><a href="/front?dayQuery=1">day</a></u>,-->
-              <u><a href="/front?dayQuery=30">month</a></u>, or
-              <u><a href="/front?dayQuery=365">year</a></u>.
+              <u><a th:href="@{'/front?day=' + ${date.minusDays(1)}}">day</a></u>,
+              <u><a th:href="@{'/front?day=' + ${date.minusDays(30)}}">month</a></u>, or
+              <u><a th:href="@{'/front?day=' + ${date.minusDays(365)}}">year</a></u>.
               Go forward a
-<!--              <u><a href="/front">day</a></u>,-->
-              <u><a href="/front?dayQuery=30">month</a></u>, or
-              <u><a href="/front?dayQuery=365">year</a></u>.
+              <u><a th:href="@{'/front?day=' + ${date.plusDays(1)}}">day</a></u>,
+              <u><a th:href="@{'/front?day=' + ${date.plusDays(30)}}">month</a></u>, or
+              <u><a  th:href="@{'/front?day=' + ${date.plusDays(365)}}">year</a></u>.
           </p>
       </table>
 
