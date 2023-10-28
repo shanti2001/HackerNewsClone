@@ -22,14 +22,6 @@ public interface ContentRepositroy extends JpaRepository<Content, Integer>{
             @Param("endDateTime") LocalDateTime endDateTime
     );
 
-//    @Query(
-//            "SELECT c " + "FROM Content c " +
-//                    "WHERE c.title " +
-//                    "ilike %:keyword% " +
-//                    "OR c.url ilike %:keyword% " +
-//                    "OR c.text ilike %:keyword%")
-//    List<Content> searchByKeyword(@Param("keyword") String keyword);
-
     @Query("SELECT c FROM Content c WHERE c.title ilike %:searchText% ")
     List<Content> findByTitleContaining(String searchText);
 

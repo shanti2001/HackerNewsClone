@@ -30,9 +30,6 @@ public class ContentController {
 	@Autowired
 	ContentRepositroy contentRepositroy;
 
-	private static LocalDate retainLocalDate;
-
-
 	@GetMapping("/submit")
 	public String newContent() {
 		return "newContent";
@@ -55,46 +52,22 @@ public class ContentController {
 	@GetMapping("/front")
 	public String sortedPostFromPreviousDate(Model model, @RequestParam(value = "day", required = false) String day) {
 		DateTimeFormatter DATEFORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
 		if(day == null){
-			Date date = new Date();
-			day = new SimpleDateFormat("yyyy-MM-dd").format(date);
+			LocalDate currentDate = LocalDate.now();
+			LocalDate previousDay = currentDate.minusDays(1);
+			day = previousDay.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
 		LocalDate ld = LocalDate.parse(day, DATEFORMATTER);
 
-		//LocalDate oneDayBefore = LocalDate.now().minusDays(day);
 		LocalDateTime startOfDay = ld.atStartOfDay();
 		LocalDateTime endOfDay = ld.atTime(LocalTime.MAX);
-
 		List<Content> sortedList = contentRepositroy.findAllBySubmitTimeBetween(startOfDay, endOfDay);
 		model.addAttribute("contents", sortedList);
 		model.addAttribute("date",ld);
 		System.out.println(ld);
 		return "past";
 	}
-
-
-//	@GetMapping("/front")
-//	public String sortedPostFromPreviousDate(
-//			Model model,
-//			@RequestParam(name = "day", required = false) int day,
-//			@RequestParam(name = "updatedDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate updatedDate) {
-//
-//		LocalDate baseDate = (updatedDate != null) ? updatedDate : LocalDate.now().minusDays(1);
-//
-//		LocalDate oneDayBefore = baseDate.minusDays(day);
-//		LocalDateTime startOfDay = oneDayBefore.atStartOfDay();
-//		LocalDateTime endOfDay = oneDayBefore.atTime(LocalTime.MAX);
-//
-//		List<Content> sortedList = contentRepositroy.findAllBySubmitTimeBetween(startOfDay, endOfDay);
-//		model.addAttribute("contents", sortedList);
-//		model.addAttribute("date", oneDayBefore);
-//		System.out.println(oneDayBefore);
-//		return "past";
-//	}
-
-
-
-
 
 	@RequestMapping("/search")
 	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,
