@@ -478,17 +478,29 @@ table.padtab td {
 				<table border="0" cellpadding="0" cellspacing="0" width="100%"
 					style="padding: 2px">
 					<tr>
-						<td style="line-height: 12pt; height: 10px;"><span
-							class="pagetop"> <a href="/" class="hnname">Home</a> <b
-								class="hnname"> <a href="/news">Hacker News</a>
-							</b> <a href="/newest">new</a> | <a href="/front?dayQuery=1">past</a>
-								| <a href="/newcomments">comments</a> | <a href="/ask">ask</a> |
-								<a href="/show">show</a> | <a href="/job">jobs</a> | <a
-								href="/submit">submit</a>
-						</span></td>
-						<td style="text-align: right; padding-right: 4px;"><span
-							class="pagetop"> <a href="login?goto=news">login</a>
-						</span></td>
+						<td bgcolor="#ff6600">
+							<table border="0" cellpadding="0" cellspacing="0" width="100%"
+								style="padding: 2px">
+								<tr>
+									<td style="line-height: 12pt; height: 10px; font-size: 12pt;"><span
+										class="pagetop"> <a href="/" class="hnname"
+											style="font-size: 12pt">Home</a> <b class="hnname"> <a
+												href="/news" style="font-size: 12pt">Hacker News</a>
+										</b> <a href="/newest" style="font-size: 12pt">new</a> | <a
+											href="/front?dayQuery=1" style="font-size: 12pt">past</a> | <a
+											href="/newcomments" style="font-size: 12pt">comments</a> | <a
+											href="/ask" style="font-size: 12pt">ask</a> | <a href="/show"
+											style="font-size: 12pt">show</a> | <a href="/job"
+											style="font-size: 12pt">jobs</a> | <a href="/submit"
+											style="font-size: 12pt">submit</a>
+									</span></td>
+									<td style="text-align: right; padding-right: 4px;"><span
+										class="pagetop"> <a href="login?goto=news"
+											style="font-size: 12pt">login</a>
+									</span></td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 			</td>
@@ -561,7 +573,7 @@ table.padtab td {
 							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
 								th:href="'upvote?id='+${item.id}">up-vote</a></span> | <a
 							th:href="'hide?id='+${item.id}" class="clicky hider">hide</a> | <a
-							th:href="'showcontent?id='+${item.id}">comments</a>
+							th:href="'showcontent?id='+${item.id}"><span th:text="${#lists.size(item.comments)}"></span> comments</a>
 					</span></td>
 				</tr>
 			</table>

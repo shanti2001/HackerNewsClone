@@ -1,10 +1,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta name="referrer" content="origin">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <title>Hacker News</title>
-        <style>
+<head>
+<meta name="referrer" content="origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hacker News</title>
+<style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 10pt;
@@ -470,128 +470,123 @@ table.padtab td {
 		overflow: hidden
 	}
 }
-span{
-color:black
-}
 
+span {
+	color: black
+}
 </style>
-    </head>
-    <body>
-        <center>
-            <table id="hnmain" border="0" cellpadding="0" cellspacing="0" width="85%" bgcolor="#f6f6ef">
-                <tr>
-                    <td bgcolor="#ff6600">
-                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding:2px">
-                            <tr>
-                                <td bgcolor="#ff6600">
+</head>
+<body>
+	
+		<table id="hnmain" border="0" cellpadding="0" cellspacing="0"
+			width="85%" bgcolor="#f6f6ef" style="padding-left: 10%">
+			<tr>
+				<td bgcolor="#ff6600">
 					<table border="0" cellpadding="0" cellspacing="0" width="100%"
 						style="padding: 2px">
 						<tr>
-							<td style="line-height: 12pt; height: 10px;"><span
-								class="pagetop"> <a href="/" class="hnname">Home</a> <b
-									class="hnname"> <a href="/news">Hacker News</a>
-								</b> <a href="/newest">new</a> | <a href="/front?dayQuery=1">past</a> | <a
-									href="/newcomments">comments</a> | <a href="/ask">ask</a> | <a
-									href="/show">show</a> | <a href="/job">jobs</a> | <a
-									href="/submit">submit</a>
-							</span></td>
-							<td style="text-align: right; padding-right: 4px;"><span
-								class="pagetop"> <a href="login?goto=news">login</a>
-							</span></td>
+							<td bgcolor="#ff6600">
+								<table border="0" cellpadding="0" cellspacing="0" width="100%"
+									style="padding: 2px">
+									<tr>
+										<td style="line-height: 12pt; height: 10px; font-size: 12pt;"><span
+											class="pagetop"> <a href="/" class="hnname"
+												style="font-size: 12pt">Home</a> <b class="hnname"> <a
+													href="/news" style="font-size: 12pt">Hacker News</a>
+											</b> <a href="/newest" style="font-size: 12pt">new</a> | <a
+												href="/front?dayQuery=1" style="font-size: 12pt">past</a> |
+												<a href="/newcomments" style="font-size: 12pt">comments</a>
+												| <a href="/ask" style="font-size: 12pt">ask</a> | <a
+												href="/show" style="font-size: 12pt">show</a> | <a
+												href="/job" style="font-size: 12pt">jobs</a> | <a
+												href="/submit" style="font-size: 12pt">submit</a>
+										</span></td>
+										<td style="text-align: right; padding-right: 4px;"><span
+											class="pagetop"> <a href="login?goto=news"
+												style="font-size: 12pt">login</a>
+										</span></td>
+									</tr>
+								</table>
+							</td>
 						</tr>
 					</table>
 				</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr id="pagespace" title="Profile: shanti2001" style="height:10px"></tr>
-                <tr>
-                    <td>
-                        <form class="profileform" action="/updateuser" method="post">
-                            <input type="hidden" name="id" th:value="${user.id}">
-                            <table border="0">
-                                <tr class="athing">
-                                    <td valign="top">user:</td>
-                                    <td timestamp="1698132666">
-                                        <a th:href="'userpage?id='+${user.id}"  class="hnuser">
-                                            <font color="#3c963c"><span th:text="${user.name}"></span></font>
-                                        </a>
-                                    </td>
-                                </tr>
-                                
-                                <tr>
-                                    <td valign="top">about:</td>
-                                    <td style="overflow:hidden">
-                                    	<span th:if="${user.about !=null}">
-                                        <textarea name="about" rows="5" cols="60" wrap="virtual" th:text="${user.about}"></textarea>
-                                        </span>
-                                        <span th:if="${user.about ==null}">
-                                        <textarea name="about" rows="5" cols="60" wrap="virtual" th:text="${user.about}"></textarea>
-                                        </span>
-                                        
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <font size="2">Only admins see your email below. To share publicly, add to the 'about' box.</font>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign="top">email:</td>
-                                    <td>
-                                        <input type="text" name="email" th:value="${user.email}" size="60" th:readonly="true">
-                                    </td>
-                                </tr>
-                                
-                                
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <a th:href="'submitted?id='+${user.id}">
-                                        <u>submissions</u>
-                                    </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <a th:href="'hidden?id='+${user.id}">
-                                        <u>hidden</u>
-                                    </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <a th:href="'threads?id='+${user.id}">
-                                            <u>comments</u>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        <a th:href="'upvoted?id='+${user.id}">
-                                            <u>upvoted submissions</u>
-                                        </a>
-                                        / 
-                                        <a th:href="'upvotedcomment?id='+${user.id}">
-                                            <u>comments</u>
-                                        </a>
-                                    </td>
-                                </tr>
-                                
-                            </table>
-                            <br>
-                            <input type="submit" value="update">
-                        </form>
-                        <br>
-                        <br>
-                    </td>
-                </tr>
-            </table>
-        </center>
-    </body>
+			</tr>
+		</table>
+		</td>
+		</tr>
+		<tr id="pagespace" title="Profile: shanti2001" style="height: 10px"></tr>
+		<tr>
+			<td>
+				<form class="profileform" action="/updateuser" method="post">
+					<input type="hidden" name="id" th:value="${user.id}">
+					<table border="0" style="padding-left: 10%">
+						<tr class="athing">
+							<td valign="top">user:</td>
+							<td timestamp="1698132666"><a
+								th:href="'userpage?id='+${user.id}" class="hnuser"> <font
+									color="#3c963c"><span th:text="${user.name}"></span></font>
+							</a></td>
+						</tr>
+
+						<tr>
+							<td valign="top">about:</td>
+							<td style="overflow: hidden"><span
+								th:if="${user.about !=null}"> <textarea name="about"
+										rows="5" cols="60" wrap="virtual" th:text="${user.about}"></textarea>
+							</span> <span th:if="${user.about ==null}"> <textarea
+										name="about" rows="5" cols="60" wrap="virtual"
+										th:text="${user.about}"></textarea>
+							</span></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><font size="2">Only admins see your email below.
+									To share publicly, add to the 'about' box.</font></td>
+						</tr>
+						<tr>
+							<td valign="top">email:</td>
+							<td><input type="text" name="email" th:value="${user.email}"
+								size="60" th:readonly="true"></td>
+						</tr>
+
+
+						<tr>
+							<td></td>
+							<td><a th:href="'submitted?id='+${user.id}"> <u>submissions</u>
+							</a></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><a th:href="'hidden?id='+${user.id}"> <u>hidden</u>
+							</a></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><a th:href="'threads?id='+${user.id}"> <u>comments</u>
+							</a></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><a th:href="'upvoted?id='+${user.id}"> <u>upvoted
+										submissions</u>
+							</a> / <a th:href="'upvotedcomment?id='+${user.id}"> <u>comments</u>
+							</a></td>
+						</tr>
+
+					</table>
+					<br>
+					<table style="padding-left: 10%">
+						<tr>
+							<td>
+					 			<input type="submit" value="update" >
+					 		</td>
+					 	</tr>
+					</table>
+				</form> <br> <br>
+			</td>
+		</tr>
+		</table>
+	
+</body>
 </html>
