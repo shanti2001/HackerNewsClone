@@ -1,6 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Hacker News</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
@@ -515,8 +516,11 @@ span {
 			<table th:each="item, index : ${comments}"
 				style="text-align: left; padding-left: 10%">
 				<tr>
-
-					<td><span class="subtext"> <a
+					<td style="display: inline-block;"><span
+							th:unless="${#lists.contains(user.upVoteComment, item)}"><a
+								th:href="'upvotecomment?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
+					
+					<td style="display: inline-block;"><span class="subtext"> <a
 							th:href="'user?id='+${item.user.id}"><span
 								th:text="${item.user.name}"></span></a> | <span
 							th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
@@ -524,8 +528,7 @@ span {
 							<span></span> | <span
 							th:if="${#lists.contains(user.upVoteComment, item)}"><a
 								th:href="'unvotecomment?id='+${item.id}">un-vote</a></span> <span
-							th:unless="${#lists.contains(user.upVoteComment, item)}"><a
-								th:href="'upvotecomment?id='+${item.id}">up-vote</a></span> | on: <a
+							th:unless="${#lists.contains(user.upVoteComment, item)}"></span>  on: <a
 							th:href="'showcontent?id='+${item.content.id}"><span
 								th:text="${item.content.title}"></span></a>
 					</span></td>

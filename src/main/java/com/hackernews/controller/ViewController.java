@@ -27,6 +27,8 @@ public class ViewController {
 	public String showcontent(@RequestParam("id") String id, Model model) {
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
 		User user = userRepository.findById(1).get();
+		
+		
 		model.addAttribute("content",content);
 		model.addAttribute("user",user);
 		

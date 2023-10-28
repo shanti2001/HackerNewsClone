@@ -1,6 +1,7 @@
 <html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
 <title>Hacker News</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
@@ -545,6 +546,10 @@ table.padtab td {
 				<tr>
 					<td><span th:text="${index.index+1}"></span><span>.</span></td>
 					<td style="display: inline-block;"><span
+							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
+								th:href="'upvote?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
+					
+					<td style="display: inline-block;"><span
 						th:if="${not #strings.isEmpty(item.url)}"> <a
 							th:href="${item.url}" th:attr="rel='noopener noreferrer'"><span
 								th:text="${item.title}"></span></a>
@@ -571,7 +576,6 @@ table.padtab td {
 							th:if="${#lists.contains(user.upVoteContent, item)}"><a
 								th:href="'unvote?id='+${item.id}">un-vote</a></span> <span
 							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
-								th:href="'upvote?id='+${item.id}">up-vote</a></span> | <a
 							th:href="'hide?id='+${item.id}" class="clicky hider">hide</a> | <a
 							th:href="'showcontent?id='+${item.id}"><span th:text="${#lists.size(item.comments)}"></span> comments</a>
 					</span></td>
