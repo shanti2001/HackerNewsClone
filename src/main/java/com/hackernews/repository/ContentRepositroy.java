@@ -22,15 +22,15 @@ public interface ContentRepositroy extends JpaRepository<Content, Integer>{
 	public List<Content> getAllJob();
 
 	@Query(
-			"SELECT c " + "FROM Content c " +
-					"WHERE c.submitTime " +
-					"BETWEEN :startDateTime " + "AND :endDateTime " +
-					"ORDER BY c.submitTime DESC"
-			)
-	List<Content> findAllBySubmitTimeBetween(
-			@Param("startDateTime") LocalDateTime startDateTime,
-			@Param("endDateTime") LocalDateTime endDateTime
-			);
+            "SELECT c " + "FROM Content c " +
+                    "WHERE c.submitTime " +
+                    "BETWEEN :startDateTime " + "AND :endDateTime " +
+                    "ORDER BY c.submitTime DESC"
+    )
+    List<Content> findAllBySubmitTimeBetween(
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime
+    );
 	@Query("SELECT c FROM Content c WHERE c.title ilike %:searchText% ")
 	List<Content> findByTitleContaining(String searchText);
 

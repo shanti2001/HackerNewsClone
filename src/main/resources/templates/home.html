@@ -1,7 +1,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>Hacker News</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 body {
 	font-family: Verdana, Geneva, sans-serif;
@@ -479,7 +480,7 @@ span {
 	<table id="hnmain" border="0" cellpadding="0" cellspacing="0"
 		width="85%" bgcolor="#f6f6ef" style="padding-left: 10%">
 		<tr>
-			
+
 			<td bgcolor="#ff6600">
 				<table border="0" cellpadding="0" cellspacing="0" width="100%"
 					style="padding: 2px">
@@ -493,7 +494,7 @@ span {
 											style="font-size: 12pt">Home</a> <b class="hnname"> <a
 												href="/news" style="font-size: 12pt">Hacker News</a>
 										</b> <a href="/newest" style="font-size: 12pt">new</a> | <a
-											href="/front?dayQuery=1" style="font-size: 12pt">past</a> | <a
+											href="/front" style="font-size: 12pt">past</a> | <a
 											href="/newcomments" style="font-size: 12pt">comments</a> | <a
 											href="/ask" style="font-size: 12pt">ask</a> | <a href="/show"
 											style="font-size: 12pt">show</a> | <a href="/job"
@@ -501,8 +502,19 @@ span {
 											style="font-size: 12pt">submit</a>
 									</span></td>
 									<td style="text-align: right; padding-right: 4px;"><span
-										class="pagetop"> <a href="login?goto=news"
-											style="font-size: 12pt">login</a>
+										class="pagetop"> <span th:if="${user} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${user} != null"> <a
+												th:href="'userpage?id='+${user.id}"><span
+													th:text="${user.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
 									</span></td>
 								</tr>
 							</table>
@@ -518,8 +530,8 @@ span {
 				<tr>
 					<td><span th:text="${index.index+1}"></span><span>.</span></td>
 					<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
-								th:href="'upvote?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
+						th:unless="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
+							th:href="'upvote?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
 
 					<td style="display: inline-block;"><span
 						th:if="${not #strings.isEmpty(item.url)}"> <a
@@ -545,10 +557,11 @@ span {
 								th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span></a>
 
 							<span></span> | <span
-							th:if="${#lists.contains(user.upVoteContent, item)}"><a
+							th:if="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 								th:href="'unvote?id='+${item.id}">un-vote</a></span> <a
 							th:href="'hide?id='+${item.id}" class="clicky hider">hide</a> |<a
-							th:href="'showcontent?id='+${item.id}"><span th:text="${#lists.size(item.comments)}"></span> comments</a> 
+							th:href="'showcontent?id='+${item.id}"><span
+								th:text="${#lists.size(item.comments)}"></span> comments</a>
 					</span></td>
 				</tr>
 			</table>

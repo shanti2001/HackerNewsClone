@@ -3,6 +3,9 @@ package com.hackernews.controller;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,18 +30,31 @@ public class UserController {
 	ContentRepositroy contentRepositroy;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
+	public User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
+        return author;
+	}
 	
 	@RequestMapping({"/","/news"})
 	public String getHome(Model model) {
 		List<Content> contents = contentRepositroy.getAllShowAndNormal();
-		User user = userRepository.findById(1).get();
-		List<Integer> hiddenContent = user.getHiddenConnentIds();
-//		List<Content> allContents = new ArrayList<>();
-		for(int id:hiddenContent) {
-			if(contents.contains(contentRepositroy.findById(id).get())) {
-				contents.remove(contentRepositroy.findById(id).get());
+		User user = getUser();
+		if(user!=null) {
+			List<Integer> hiddenContent = user.getHiddenConnentIds();
+//			List<Content> allContents = new ArrayList<>();
+			for(int id:hiddenContent) {
+				if(contents.contains(contentRepositroy.findById(id).get())) {
+					contents.remove(contentRepositroy.findById(id).get());
+				}
 			}
 		}
+		
 		model.addAttribute("user",user);
 		model.addAttribute("contents",contents);
 		return "home";
@@ -58,7 +74,8 @@ public class UserController {
 			@RequestParam(name = "confirmPassword") String confirmPassword,Model model) {
 		
 		if(password.equals(confirmPassword) ) {
-			userService.addUser(name, email, password, password);
+			password = bCryptPasswordEncoder.encode(password);
+			userService.addUser(name, email, password);
 			return "redirect:/login";
 		}
 		else {
@@ -75,21 +92,24 @@ public class UserController {
 	@GetMapping("/user")
 	public String userData(@RequestParam("id") String userId, Model model) {
 		User user = userRepository.findById(Integer.parseInt(userId)).get();
-	
+		User author = getUser();
 		model.addAttribute("user",user);
+		model.addAttribute("author",author);
 		return "UserPageForOther";
 	}
 	
 	@GetMapping("/submitted")
 	public String userContent(@RequestParam("id") String userId, Model model) {
-		User user = userRepository.findById(Integer.parseInt(userId)).get();		
-		model.addAttribute("contents",user.getContents());
+		User author = userRepository.findById(Integer.parseInt(userId)).get();
+		User user = getUser();
+		model.addAttribute("contents",author.getContents());
 		model.addAttribute("user",user);
+		model.addAttribute("author",author);
 		return "home";
 	}
 	@GetMapping("/userpage")
 	public String userPage(@RequestParam("id") String userId, Model model) {
-		User user = userRepository.findById(Integer.parseInt(userId)).get();
+		User user = getUser();
 		model.addAttribute("user",user);
 //		model.addAttribute("contents",user.getContents());
 		return "userpage";
@@ -97,7 +117,7 @@ public class UserController {
 	@GetMapping("/hide")
 	public String hideContent(@RequestParam("id") String id, Model model) {
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Integer> hiddenContent = user.getHiddenConnentIds();
 		if(hiddenContent==null) {
 			hiddenContent = new ArrayList<>();
@@ -126,7 +146,7 @@ public class UserController {
 	public String unhidePage(@RequestParam("id") String id, Model model) {
 		
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Integer> hiddenContent = user.getHiddenConnentIds();
 		
 
@@ -141,7 +161,7 @@ public class UserController {
 	@GetMapping("/upvote")
 	public String upVote(@RequestParam("id") String id, Model model) {
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Content> upVoteContent = user.getUpVoteContent();
 		if(upVoteContent==null) {
 			upVoteContent = new ArrayList<>();
@@ -154,7 +174,7 @@ public class UserController {
 	@GetMapping("/unvote")
 	public String unVote(@RequestParam("id") String id, Model model) {
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Content> upVoteContent = user.getUpVoteContent();
 		
 		upVoteContent.remove(content);
@@ -180,7 +200,7 @@ public class UserController {
 	public String unVotedPage(@RequestParam("id") String id, Model model) {
 		
 		Content content = contentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Content> upVotedContent = user.getUpVoteContent();
 		
 		upVotedContent.remove(content);

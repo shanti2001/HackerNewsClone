@@ -502,9 +502,20 @@ span {
 												href="/submit" style="font-size: 12pt">submit</a>
 										</span></td>
 										<td style="text-align: right; padding-right: 4px;"><span
-											class="pagetop"> <a href="login?goto=news"
-												style="font-size: 12pt">login</a>
-										</span></td>
+										class="pagetop"> <span th:if="${author} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${author} != null"> <a
+												th:href="'userpage?id='+${author.id}"><span
+													th:text="${author.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
+									</span></td>
 									</tr>
 								</table>
 							</td>

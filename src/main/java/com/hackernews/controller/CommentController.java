@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,13 @@ public class CommentController {
 	@Autowired
 	UserRepository userRepository;
 	
+	public User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User author = userRepository.getUserByUserName(username);
+        return author;
+	}
+	
 	@PostMapping("/comment")
 	public String addcomment(@RequestParam(name = "id", required = false) int id,
 			@RequestParam(name = "comment", required = false ) String comment ,Model model) {
@@ -38,7 +47,7 @@ public class CommentController {
 		newComment.setComment(comment);
 		newComment.setSubmitTime(new Timestamp(new Date().getTime()));
 		newComment.setContent(content);
-		newComment.setUser(userRepository.findById(1).get());
+		newComment.setUser(getUser());
 		
 		commentRepositroy.save(newComment);
 		List<Comment> allComments = content.getComments();
@@ -55,7 +64,7 @@ public class CommentController {
 	@GetMapping("/newcomments")
 	public String allComments(Model model) {
 		List<Comment> allComments = commentRepositroy.findAll(Sort.by(Sort.Direction.DESC, "submitTime"));
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		
 		model.addAttribute("user",user);
 		model.addAttribute("comments",allComments);
@@ -65,10 +74,10 @@ public class CommentController {
 	@GetMapping("/threads")
 	public String hidePage(@RequestParam("id") String id, Model model) {
 		
-		User user = userRepository.findById(Integer.parseInt(id)).get();
-		List<Comment> comments = user.getComments();
+		User author = userRepository.findById(Integer.parseInt(id)).get();
+		List<Comment> comments = author.getComments();
 		
-		
+		User user = getUser();
 		model.addAttribute("comments",comments);
 		model.addAttribute("user",user);
 		
@@ -78,7 +87,7 @@ public class CommentController {
 	@GetMapping("/upvotecomment")
 	public String upVoteComment(@RequestParam("id") String id, Model model) {
 		Comment comment = commentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Comment> upVoteComment = user.getUpVoteComment();
 		if(upVoteComment==null) {
 			upVoteComment = new ArrayList<>();
@@ -91,7 +100,7 @@ public class CommentController {
 	@GetMapping("/unvotecomment")
 	public String unVote(@RequestParam("id") String id, Model model) {
 		Comment comment = commentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		List<Comment> upVoteComment = user.getUpVoteComment();
 		upVoteComment.remove(comment);
 		userRepository.save(user);
@@ -117,7 +126,7 @@ public class CommentController {
 	public String unVotedPage(@RequestParam("id") String id, Model model) {
 		
 		Comment comment = commentRepositroy.findById(Integer.parseInt(id)).get();
-		User user = userRepository.findById(1).get();
+		User user = getUser();
 		
 		List<Comment> upVoteComment = user.getUpVoteComment();
 		upVoteComment.remove(comment);

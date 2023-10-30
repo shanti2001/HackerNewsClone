@@ -488,14 +488,26 @@ table.padtab td {
 										<td style="line-height: 12pt; height: 10px; font-size:12pt;"><span
 											class="pagetop"> <a href="/" class="hnname" style="font-size:12pt">Home</a> <b
 												class="hnname"> <a href="/news" style="font-size:12pt">Hacker News</a>
-											</b> <a href="/newest" style="font-size:12pt">new</a> | <a href="/front?dayQuery=1" style="font-size:12pt">past</a>
+											</b> <a href="/newest" style="font-size:12pt">new</a> | <a href="/front" style="font-size:12pt">past</a>
 												| <a href="/newcomments" style="font-size:12pt">comments</a> | <a href="/ask" style="font-size:12pt">ask</a>
 												| <a href="/show" style="font-size:12pt">show</a> | <a href="/job" style="font-size:12pt">jobs</a> | <a
 												href="/submit" style="font-size:12pt">submit</a>
 										</span></td>
 										<td style="text-align: right; padding-right: 4px;"><span
-											class="pagetop"> <a href="login?goto=news" style="font-size:12pt">login</a>
-										</span></td>
+										class="pagetop"> <span th:if="${user} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${user} != null"> <a
+												th:href="'userpage?id='+${user.id}"><span
+													th:text="${user.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
+									</span></td>
 									</tr>
 								</table>
 							</td>
@@ -504,21 +516,22 @@ table.padtab td {
 				</td>
 			</tr>
 			
-			<tr class="spacer" style="height: 5px"></tr>
+			<tr class="spacer" style="height: 10px"></tr>
 
 			<tr id="pagespace" title="" >
-
-				<!-- <table style="text-align: left; padding-left: 10%">
-					<p>
-						Go back a
-						             <u><a href="/front?dayQuery=1">day</a></u>,
-						<u><a href="/front?dayQuery=30">month</a></u>, or <u><a
-							href="/front?dayQuery=365">year</a></u>. Go forward a
-						             <u><a href="/front">day</a></u>,
-						<u><a href="/front?dayQuery=30">month</a></u>, or <u><a
-							href="/front?dayQuery=365">year</a></u>.
-					</p>
-				</table> -->
+				<td>
+				 <table style="text-align: left; padding-left: 10%">
+			          <p> Go back a
+			          <u><a th:href="@{'/front?day=' + ${date.minusDays(1)}}">day</a></u>,
+			              <u><a th:href="@{'/front?day=' + ${date.minusDays(30)}}">month</a></u>, or
+			              <u><a th:href="@{'/front?day=' + ${date.minusDays(365)}}">year</a></u>.
+			              Go forward a
+			               <u><a th:href="@{'/front?day=' + ${date.plusDays(1)}}">day</a></u>,
+			              <u><a th:href="@{'/front?day=' + ${date.plusDays(30)}}">month</a></u>, or
+			              <u><a  th:href="@{'/front?day=' + ${date.plusDays(365)}}">year</a></u>.
+			              </p>
+			      </table>
+			      </td>
 
 				<table th:each="item, index : ${contents}"
 					style="text-align: left; padding-left: 10%">
@@ -527,7 +540,7 @@ table.padtab td {
 
 						<td><span th:text="${index.index+1}"></span><span>.</span></td>
 						<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
+							th:unless="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 								th:href="'upvote?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
 						
 						<td style="display: inline-block;"><span
@@ -554,7 +567,7 @@ table.padtab td {
 									th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span></a>
 
 								<span></span> | <span
-								th:if="${#lists.contains(user.upVoteContent, item)}"><a
+								th:if="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 									th:href="'unvote?id='+${item.id}">un-vote</a></span>  <a
 								th:href="'hide?id='+${item.id}" class="clicky hider">hide</a> |
 								<a

@@ -508,9 +508,20 @@ span {
 														href="/submit" style="font-size: 12pt">submit</a>
 												</span></td>
 												<td style="text-align: right; padding-right: 4px;"><span
-													class="pagetop"> <a href="login?goto=news"
-														style="font-size: 12pt">login</a>
-												</span></td>
+										class="pagetop"> <span th:if="${user} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${user} != null"> <a
+												th:href="'userpage?id='+${user.id}"><span
+													th:text="${user.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
+									</span></td>
 											</tr>
 										</table>
 									</td>
@@ -526,7 +537,7 @@ span {
 			<table style="text-align: left; padding-left: 10%">
 				<tr>
 					<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
+							th:unless="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 								th:href="'upvote?id='+${content.id}"><i class="fa fa-caret-up"></a></span></i></td>
 					
 
@@ -554,17 +565,16 @@ span {
 								th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(content.submitTime)}"></span></a>
 
 							<span></span> | <span
-							th:if="${#lists.contains(user.upVoteContent, content)}"><a
-								th:href="'unvote?id='+${content.id}">un-vote</a></span> <span
-							th:unless="${#lists.contains(user.upVoteContent, content)}"> <a
+							th:if="${user!=null and #lists.contains(user.upVoteContent, content)}"><a
+								th:href="'unvote?id='+${content.id}">un-vote</a></span>  <a
 							th:href="'showcontent?id='+${content.id}"><span th:text="${#lists.size(content.comments)}"></span> comments</a>
 					</span></td>
 				</tr>
 				<tr class="spacer" style="height: 10px"></tr>
-				<tr style="text-align: left;">
+				<tr >
 					<td></td>
 					<td>
-						<form th:action="@{/comment}" method="post">
+						<form th:action="@{/comment}" method="post" style="text-align: left; ">
 							<input type="hidden" name="id" th:value="${content.id}">
 							<textarea name="comment" rows="8" cols="80" wrap="virtual"></textarea>
 							<br> <br> If you haven't already, would you mind
@@ -582,13 +592,13 @@ span {
 				style="text-align: left; padding-left: 10%">
 				<tr>
 					<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteComment, item)}"><a
+							th:unless="${user!=null and #lists.contains(user.upVoteComment, item)}"><a
 								th:href="'upvotecomment?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
 					<td style="display: inline-block;"><span> <a th:href="'user?id='+${item.user.id}"><span
 								th:text="${item.user.name}"></span></a> | <span
 							th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 					</span> <span></span> | <span
-						th:if="${#lists.contains(user.upVoteComment, item)}"><a
+						th:if="${user!=null and #lists.contains(user.upVoteComment, item)}"><a
 							th:href="'unvotecomment?id='+${item.id}">un-vote</a></span> </td>
 				</tr>
 				<tr>

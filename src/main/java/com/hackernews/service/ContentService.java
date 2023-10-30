@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.hackernews.entity.Content;
+import com.hackernews.entity.User;
 import com.hackernews.repository.ContentRepositroy;
 import com.hackernews.repository.UserRepository;
 
@@ -21,10 +22,10 @@ public class ContentService {
 	@Autowired
 	ContentRepositroy contentRepositroy;
 	
-	public void addContent(Content content) {
+	public void addContent(Content content,User user) {
 		
 		content.setSubmitTime(new Timestamp(new Date().getTime()));
-		content.setUser(userRepository.findAll().get(0));
+		content.setUser(user);
 		
 		contentRepositroy.save(content);
 	}

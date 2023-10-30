@@ -500,8 +500,19 @@ span {
 											style="font-size: 12pt">submit</a>
 									</span></td>
 									<td style="text-align: right; padding-right: 4px;"><span
-										class="pagetop"> <a href="login?goto=news"
-											style="font-size: 12pt">login</a>
+										class="pagetop"> <span th:if="${user} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${user} != null"> <a
+												th:href="'userpage?id='+${user.id}"><span
+													th:text="${user.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
 									</span></td>
 								</tr>
 							</table>
@@ -516,8 +527,9 @@ span {
 			<table th:each="item, index : ${comments}"
 				style="text-align: left; padding-left: 10%">
 				<tr>
+					<td><span th:text="${index.index+1}"></span><span>.</span></td>
 					<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteComment, item)}"><a
+							th:unless="${user!=null and #lists.contains(user.upVoteComment, item)}"><a
 								th:href="'upvotecomment?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
 					
 					<td style="display: inline-block;"><span class="subtext"> <a
@@ -526,14 +538,14 @@ span {
 							th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 
 							<span></span> | <span
-							th:if="${#lists.contains(user.upVoteComment, item)}"><a
-								th:href="'unvotecomment?id='+${item.id}">un-vote</a></span> <span
-							th:unless="${#lists.contains(user.upVoteComment, item)}"></span>  on: <a
+							th:if="${user!=null and #lists.contains(user.upVoteComment, item)}"><a
+								th:href="'unvotecomment?id='+${item.id}">un-vote</a></span>  on: <a
 							th:href="'showcontent?id='+${item.content.id}"><span
 								th:text="${item.content.title}"></span></a>
 					</span></td>
 				</tr>
 				<tr>
+					<td colspan="1"></td>
 					<td><span th:text="${item.comment}"></span></td>
 				</tr>
 

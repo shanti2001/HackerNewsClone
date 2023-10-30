@@ -50,6 +50,16 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name = "comment_id")
 			)
 	private List<Comment> upVoteComment;
+	@Column(name="roles")
+    private String roles = "ROLE_AUTHOR";
+	
+
+	public String getRoles() {
+		return roles;
+	}
+	public void setRoles(String roles) {
+		this.roles = roles;
+	}
 
 	public User() {
 		super();

@@ -10,7 +10,7 @@ import com.hackernews.repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
-	public void addUser(String name,String email,String password,String confirmPassword) {
+	public void addUser(String name,String email,String password) {
 		User newUser = new User();
 		newUser.setName(name);
 		newUser.setEmail(email);

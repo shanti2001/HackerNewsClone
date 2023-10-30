@@ -500,8 +500,19 @@ span {
 											style="font-size: 12pt">submit</a>
 									</span></td>
 									<td style="text-align: right; padding-right: 4px;"><span
-										class="pagetop"> <a href="login?goto=news"
-											style="font-size: 12pt">login</a>
+										class="pagetop"> <span th:if="${user} == null">
+												<a th:href="@{/login}">Login</a>
+										</span> <span th:if="${user} != null"> <a
+												th:href="'userpage?id='+${user.id}"><span
+													th:text="${user.name}"></span></a>
+												<form th:action="@{/logout}" method="POST">
+													<button>
+														<input type="submit" value="Logout">
+													</button>
+												</form>
+
+
+										</span>
 									</span></td>
 								</tr>
 							</table>
@@ -517,7 +528,7 @@ span {
 				<tr>
 					<td><span th:text="${index.index+1}"></span><span>.</span></td>
 					<td style="display: inline-block;"><span
-							th:unless="${#lists.contains(user.upVoteContent, item)}"><a
+							th:unless="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 								th:href="'upvote?id='+${item.id}"><i class="fa fa-caret-up"></a></span></i></td>
 					
 					<td style="display: inline-block;"><span
@@ -543,7 +554,7 @@ span {
 							th:text="${T(com.hackernews.TimeUtils).formatTimeAgo(item.submitTime)}"></span>
 
 							<span></span> | <span
-							th:if="${#lists.contains(user.upVoteContent, item)}"><a
+							th:if="${user!=null and #lists.contains(user.upVoteContent, item)}"><a
 								th:href="'unvote?id='+${item.id}">un-vote</a></span> <a
 							th:href="'showcontent?id='+${item.id}"><span th:text="${#lists.size(item.comments)}"></span> comments</a>
 					</span></td>
