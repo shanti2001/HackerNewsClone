@@ -110,7 +110,7 @@ public class ContentController {
 		return "past";
 	}
 
-	@RequestMapping("/search")
+	@GetMapping("/search")
 	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,
 								  Model model) {
 		
@@ -118,6 +118,23 @@ public class ContentController {
 		Set<Content> searchResults = contentService.findContentsByTitle(query);
 		model.addAttribute("contents", searchResults);
 		model.addAttribute("user",user);
+		model.addAttribute("query", query);
 		return "searchResults";
 	}
+	 @PostMapping("/search")
+	    public String filterContent(
+	            @RequestParam(name = "catagory", required = false) String catagory,
+	            @RequestParam(name = "q") String query,
+	            Model model
+	    ) {
+	        // Implement filtering logic using category, sort, and timeframe
+	        // Query the contentRepository based on the filter criteria
+		 	User user = getUser();
+	        Set<Content> searchResults = contentRepositroy.findFilteredContent(catagory, query);
+	        System.out.println(searchResults.size());
+	        model.addAttribute("contents", searchResults);
+	        model.addAttribute("query", query);
+	        model.addAttribute("user",user);
+	        return "searchResults"; // The view to display filtered content
+	    }
 }

@@ -507,7 +507,7 @@ span {
 										</span> <span th:if="${user} != null"> <a
 												th:href="'userpage?id='+${user.id}"><span
 													th:text="${user.name}"></span></a>
-												<form th:action="@{/logout}" method="POST">
+												<form th:action="@{/logout}" method="POST" style="display: inline;">
 													<button>
 														<input type="submit" value="Logout">
 													</button>

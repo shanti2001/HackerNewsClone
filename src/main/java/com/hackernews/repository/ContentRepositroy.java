@@ -1,7 +1,7 @@
 package com.hackernews.repository;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,4 +40,10 @@ public interface ContentRepositroy extends JpaRepository<Content, Integer>{
 	@Query("SELECT c FROM Content c WHERE c.text ilike %:searchText% ")
 	List<Content> findByTextContaining(String searchText);
 
+	@Query("SELECT c FROM Content c " +
+            "WHERE( c.title LIKE concat('%',:searchText,'%')"
+            +"OR c.url LIKE concat('%',:searchText,'%')"
+            + "OR c.text LIKE concat('%',:searchText,'%'))" +
+            "AND (:catagory IS NULL OR c.catagory LIKE concat('%',:catagory,'%'))")
+    Set<Content> findFilteredContent(@Param("catagory") String catagory, @Param("searchText") String searchText);
 }

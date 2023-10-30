@@ -501,7 +501,7 @@ table.padtab td {
 										</span> <span th:if="${user} != null"> <a
 												th:href="'userpage?id='+${user.id}"><span
 													th:text="${user.name}"></span></a>
-												<form th:action="@{/logout}" method="POST">
+												<form th:action="@{/logout}" method="POST" style="display: inline;">
 													<button>
 														<input type="submit" value="Logout">
 													</button>
@@ -519,36 +519,35 @@ table.padtab td {
 		</tr>
 		<tr class="spacer" style="height: 5px"></tr>
 
-		<td><table>
-				<span> Search <select>
-						<option>All</option>
-						<option>Stories</option>
-						<option>Comments</option>
-						<option>Ask HN</option>
-						<option>Show HN</option>
-						<option>Launch HN</option>
-						<option>Jobs</option>
-						<option>Polls</option>
-				</select>
-				</span>
+		<tr><td><form th:action="@{/search}" method="post">
+          <input type="hidden" name="q" th:value="${query}">
+          <span> Search
+                <select name="catagory">
+                    <option value="normal">Normal</option>
+                    <option value="ask">Ask</option>
+                    <option value="show">Show</option>
+                    <option value="job">Job</option>
+                </select>
+          </span>
 
-				<span> By <select>
-						<option>Popularity</option>
-						<option>Date</option>
-				</select>
-				</span>
+<!--          <span> By-->
+<!--                <select name="sort">-->
+<!--                    <option>Popularity</option>-->
+<!--                    <option>Date</option>-->
+<!--                </select>-->
+<!--          </span>-->
 
-				<span> For <select>
-						<option>All time</option>
-						<option>Last 24h</option>
-						<option>Past week</option>
-						<option>Past month</option>
-						<option>Past year</option>
-						<option>Custom range</option>
-				</select>
-				</span>
-
-			</table></td>
+<!--          <span> For-->
+<!--                <select  name="timeframe">-->
+<!--                    <option>All time</option>-->
+<!--                    <option>Last 24h</option>-->
+<!--                    <option>Past month</option>-->
+<!--                    <option>Past year</option>-->
+<!--                    <option>Custom range</option>-->
+<!--                </select>-->
+<!--          </span>-->
+          <button type="submit">Apply Filters</button>
+      </form></td></tr>
 
 		<tr id="pagespace" title="" style="height: 10px">
 
@@ -609,10 +608,7 @@ table.padtab td {
 						href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
 						href="mailto:hn@ycombinator.com">Contact</a>
 					</span> <br> <br>
-					<form method="get" action="/search">
-						Search: <input type="text" name="q" size="17" autocorrect="off"
-							spellcheck="false" autocapitalize="off" autocomplete="false">
-					</form>
+					
 				</center></td>
 		</tr>
 	</table>
