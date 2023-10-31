@@ -69,12 +69,31 @@ public class ContentController {
 		return "past";
 	}
 
-	@RequestMapping("/search")
+	@GetMapping("/search")
 	public String searchBlogPosts(@RequestParam(name = "q", required = false) String query,
+
 								  Model model) {
 
 		Set<Content> searchResults = contentService.findContentsByTitle(query);
+		System.out.println(searchResults.size());
 		model.addAttribute("contents", searchResults);
+		model.addAttribute("query", query);
+		return "searchResults";
+	}
+
+
+	@PostMapping("/search")
+	public String filterContent(
+			@RequestParam(name = "catagory", required = false) String catagory,
+			@RequestParam(name = "catagory", required = false) String timeFrame,
+			@RequestParam(name = "q", required = false) String query,
+			Model model
+	) {
+
+		Set<Content> searchResults = contentRepositroy.findFilteredContent(catagory, query);
+		//System.out.println(searchResults.size());
+		model.addAttribute("contents", searchResults);
+		model.addAttribute("query", query);
 		return "searchResults";
 	}
 }

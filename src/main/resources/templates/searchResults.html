@@ -471,64 +471,37 @@
 </head>
 <body>
 <center>
-  <table id="hnmain" border="0" cellpadding="0" cellspacing="0"
+  <form id="hnmain" border="0" cellpadding="0" cellspacing="0"
          width="85%" bgcolor="#f6f6ef">
-    <tr>
-      <td bgcolor="#ff6600">
-        <table border="0" cellpadding="0" cellspacing="0" width="100%"
-               style="padding: 2px">
-          <tr>
-            <td style="line-height: 12pt; height: 10px;"><span
-                    class="pagetop"> <a href="/" class="hnname">Home</a> <b
-                    class="hnname"> <a href="/news">Hacker News</a>
-								</b> <a href="/newest">new</a> | <a href="/front?dayQuery=1">past</a> | <a
-                    href="/newcomments">comments</a> | <a href="ask">ask</a> | <a
-                    href="show">show</a> | <a href="jobs">jobs</a> | <a
-                    href="/submit">submit</a>
-							</span></td>
-            <td style="text-align: right; padding-right: 4px;"><span
-                    class="pagetop"> <a href="login?goto=news">login</a>
-							</span></td>
-          </tr>
-        </table>
-      </td>
-    </tr>
 
-      <table>
+      <form method="get" action="/search">
+          Search: <input type="text" name="q" size="17" autocorrect="off"
+                         spellcheck="false" autocapitalize="off" autocomplete="false">
+      </form>
+
+      <form th:action="@{/search}" method="post">
+          <input type="hidden" name="q" th:value="${query}">
           <span> Search
-                <select>
-                    <option>All</option>
-                    <option>Stories</option>
-                    <option>Comments</option>
-                    <option>Ask HN</option>
-                    <option>Show HN</option>
-                    <option>Launch HN</option>
-                    <option>Jobs</option>
-                    <option>Polls</option>
-                </select>
-          </span>
-
-          <span> By
-                <select>
-                    <option>Popularity</option>
-                    <option>Date</option>
+                <select name="catagory">
+                    <option value="">All</option>
+                    <option value="normal">Normal</option>
+                    <option value="ask">Ask</option>
+                    <option value="show">Show</option>
+                    <option value="job">Job</option>
                 </select>
           </span>
 
           <span> For
-                <select>
+                <select  name="timeframe">
                     <option>All time</option>
                     <option>Last 24h</option>
-                    <option>Past week</option>
                     <option>Past month</option>
                     <option>Past year</option>
-                    <option>Custom range</option>
                 </select>
           </span>
+          <button type="submit">Apply Filters</button>
+      </form>
 
-      </table>
-
-    <tr id="pagespace" title="" style="height: 10px">
 
       <table th:each="item, index : ${contents}" style="text-align: left; padding-left: 10%">
         <tr >
@@ -561,26 +534,15 @@
         </tr>
       </table>
 
-    </tr>
+      <table style="text-align: left; padding-left: 10%">
+          <tr th:each="content : ${filteredContent}">
+              <td th:text="${content.catagory}"></td>
+              <td th:text="${content.title}"></td>
+              <td th:text="${content.url}"></td>
+              <td th:text="${content.text}"></td>
+          </tr>
+      </table>
 
-    <tr>
-      <td><br>
-        <center>
-						<span class="yclinks"> <a href="newsguidelines.html">Guidelines</a>
-							| <a href="newsfaq.html">FAQ</a> | <a href="lists">Lists</a> | <a
-                                  href="https://github.com/HackerNews/API">API</a> | <a
-                                  href="security.html">Security</a> | <a
-                                  href="https://www.ycombinator.com/legal/">Legal</a> | <a
-                                  href="https://www.ycombinator.com/apply/">Apply to YC</a> | <a
-                                  href="mailto:hn@ycombinator.com">Contact</a>
-						</span> <br> <br>
-          <form method="get" action="/search">
-            Search: <input type="text" name="q" size="17" autocorrect="off"
-                           spellcheck="false" autocapitalize="off" autocomplete="false">
-          </form>
-        </center></td>
-    </tr>
-  </table>
 </center>
 </body>
 </html>

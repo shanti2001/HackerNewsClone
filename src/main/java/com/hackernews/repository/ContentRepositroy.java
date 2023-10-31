@@ -8,8 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
-public interface ContentRepositroy extends JpaRepository<Content, Integer>{
+public interface ContentRepositroy extends JpaRepository<Content, Integer> {
 
     @Query(
             "SELECT c " + "FROM Content c " +
@@ -30,4 +31,16 @@ public interface ContentRepositroy extends JpaRepository<Content, Integer>{
 
     @Query("SELECT c FROM Content c WHERE c.text ilike %:searchText% ")
     List<Content> findByTextContaining(String searchText);
+
+   // List<Content> findFilteredContent(String category, String sort, String timeframe);
+
+
+    @Query("SELECT c FROM Content c " +
+            "WHERE( c.title LIKE concat('%',:searchText,'%')"
+            +"OR c.url LIKE concat('%',:searchText,'%')"
+            + "OR c.text LIKE concat('%',:searchText,'%'))" +
+            "AND (:catagory IS NULL OR c.catagory LIKE concat('%',:catagory,'%'))")
+    Set<Content> findFilteredContent(@Param("catagory") String catagory, @Param("searchText") String searchText);
 }
+
+
