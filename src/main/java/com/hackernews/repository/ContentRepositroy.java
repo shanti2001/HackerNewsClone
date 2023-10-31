@@ -41,9 +41,9 @@ public interface ContentRepositroy extends JpaRepository<Content, Integer>{
 	List<Content> findByTextContaining(String searchText);
 
 	@Query("SELECT c FROM Content c " +
-            "WHERE( c.title LIKE concat('%',:searchText,'%')"
-            +"OR c.url LIKE concat('%',:searchText,'%')"
-            + "OR c.text LIKE concat('%',:searchText,'%'))" +
-            "AND (:catagory IS NULL OR c.catagory LIKE concat('%',:catagory,'%'))")
+            "WHERE( c.title iLIKE concat('%',:searchText,'%')"
+            +"OR c.url iLIKE concat('%',:searchText,'%')"
+            + "OR c.text iLIKE concat('%',:searchText,'%'))" +
+            "AND (:catagory IS NULL OR c.catagory iLIKE concat('%',:catagory,'%'))")
     Set<Content> findFilteredContent(@Param("catagory") String catagory, @Param("searchText") String searchText);
 }

@@ -116,7 +116,6 @@ public class ContentController {
 		
 		User user = getUser();
 		Set<Content> searchResults = contentService.findContentsByTitle(query);
-		System.out.println(searchResults.size());
 		model.addAttribute("contents", searchResults);
 		model.addAttribute("user",user);
 		model.addAttribute("query", query);
@@ -132,7 +131,6 @@ public class ContentController {
 	        // Query the contentRepository based on the filter criteria
 		 	User user = getUser();
 	        Set<Content> searchResults = contentRepositroy.findFilteredContent(catagory, query);
-	        System.out.println(searchResults.size()+" "+catagory);
 	        model.addAttribute("contents", searchResults);
 	        model.addAttribute("query", query);
 	        model.addAttribute("user",user);
