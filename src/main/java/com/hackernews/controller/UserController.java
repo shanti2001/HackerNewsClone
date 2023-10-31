@@ -73,7 +73,7 @@ public class UserController {
 			@RequestParam(name = "password") String password,
 			@RequestParam(name = "confirmPassword") String confirmPassword,Model model) {
 		
-		if(password.equals(confirmPassword) ) {
+		if(password.equals(confirmPassword) && userRepository.getUserByUserName(email)==null ) {
 			password = bCryptPasswordEncoder.encode(password);
 			userService.addUser(name, email, password);
 			return "redirect:/login";
@@ -221,8 +221,23 @@ public class UserController {
 	
 	
 	
-	
-	
+	@GetMapping("/changepassword")
+	public String changePassword() {
+		return "changePassword";
+	}
+	 @PostMapping("/savechangepassword")
+	    public String saveChangePw(Model model,@RequestParam("username") String username , @RequestParam("newPassword") String password){
+	       User user = userRepository.getUserByUserName(username);
+	       if(user==null){
+	           model.addAttribute("username",username);
+	           model.addAttribute("errorMessage", "Enter correct username");
+	           return "changePassword";
+	       }
+	        user.setPassword(bCryptPasswordEncoder.encode(password));
+	        userRepository.save(user);
+	        model.addAttribute("successMessage", "Updated sucessfully");
+	        return "login";
+	    }
 	
 	
 	

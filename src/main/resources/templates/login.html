@@ -45,6 +45,12 @@
 		.button:hover {
 			background-color: #ccc;
 		}
+		.error-message {
+            color: #ff0000;
+        }
+        .success-message {
+            color: #00cc00;
+        }
     </style>
 </head>
 <body>
@@ -53,8 +59,9 @@
     <div class="form-container">
         <form th:action="@{/authenticateTheUser}" method="post">
         	<div th:if="${param.error}">
-		        <i>Sorry! You entered invalid username/password</i>
+		        <p class="error-message">Sorry! You entered invalid username/password</p>
 		    </div>
+		    <p class="success-message" th:text="${successMessage}"></p>
             <input type="email" placeholder="Email" name="username" required="required"><br>
             <input type="password" placeholder="Password" name="password" required="required"><br>
             <br>
@@ -63,6 +70,7 @@
         <p>
             Don't have an account? <a th:href="@{/register}" >Create one</a>
         </p>
+        <p><a th:href="@{/changepassword}">forgot password </a></p>
     </div>
 </div>
 </body>
