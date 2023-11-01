@@ -41,32 +41,7 @@ public class UserController {
         return author;
 	}
 	
-	@RequestMapping({"/","/news"})
-	public String getHome(Model model) {
-		List<Content> contents = contentRepositroy.getAllShowAndNormal();
-		User user = getUser();
-		if(user!=null) {
-			List<Integer> hiddenContent = user.getHiddenConnentIds();
-//			List<Content> allContents = new ArrayList<>();
-			for(int id:hiddenContent) {
-				if(contents.contains(contentRepositroy.findById(id).get())) {
-					contents.remove(contentRepositroy.findById(id).get());
-				}
-			}
-		}
-		
-		model.addAttribute("user",user);
-		model.addAttribute("contents",contents);
-		return "home";
-	}
-	@GetMapping("/register")
-	public String register() {
-		return "register";
-	}
-	@GetMapping("/login")
-	public String login() {
-		return "login";
-	}
+	
 	@PostMapping("/register")
 	public String addUser(@RequestParam(name = "name") String name,
 			@RequestParam(name = "email") String email,
@@ -84,10 +59,7 @@ public class UserController {
 		}
 		
 	}
-	@PostMapping("/authenticateTheUser")
-	public String loginPost() {
-		return "redirect:/";
-	}
+	
 	
 	@GetMapping("/user")
 	public String userData(@RequestParam("id") String userId, Model model) {

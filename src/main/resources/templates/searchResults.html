@@ -485,7 +485,7 @@ table.padtab td {
 								<tr>
 									<td style="line-height: 12pt; height: 10px; font-size: 12pt;"><span
 										class="pagetop"> <a href="/" class="hnname"
-											style="font-size: 12pt">Home</a> <b class="hnname"> <a
+											style="font-size: 12pt"><img th:src="@{/hns.png}" style="height:25px"></a> <b class="hnname"> <a
 												href="/news" style="font-size: 12pt">Hacker News</a>
 										</b> <a href="/newest" style="font-size: 12pt">new</a> | <a
 											href="/front?dayQuery=1" style="font-size: 12pt">past</a> | <a
@@ -523,6 +523,7 @@ table.padtab td {
           <input type="hidden" name="q" th:value="${query}">
           <span> Search
                 <select name="catagory">
+                	<option value="">All</option>
                     <option value="normal">Normal</option>
                     <option value="ask">Ask</option>
                     <option value="show">Show</option>

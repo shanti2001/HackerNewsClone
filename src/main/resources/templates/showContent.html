@@ -3,7 +3,7 @@
 <meta name="referrer" content="origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Making PostgreSQL tick: New features in pg_cron | Hacker
+<title>Hacker
 	News</title>
 <style>
 body {
@@ -497,7 +497,7 @@ span {
 												<td
 													style="line-height: 12pt; height: 10px; font-size: 12pt;"><span
 													class="pagetop"> <a href="/" class="hnname"
-														style="font-size: 12pt">Home</a> <b class="hnname"> <a
+														style="font-size: 12pt"><img th:src="@{/hns.png}" style="height:25px"></a> <b class="hnname"> <a
 															href="/news" style="font-size: 12pt">Hacker News</a>
 													</b> <a href="/newest" style="font-size: 12pt">new</a> | <a
 														href="/front?dayQuery=1" style="font-size: 12pt">past</a>
@@ -576,7 +576,7 @@ span {
 					<td>
 						<form th:action="@{/comment}" method="post" style="text-align: left; ">
 							<input type="hidden" name="id" th:value="${content.id}">
-							<textarea name="comment" rows="8" cols="80" wrap="virtual"></textarea>
+							<textarea name="comment" rows="8" cols="80" wrap="virtual" required></textarea>
 							<br> <br> If you haven't already, would you mind
 							reading about HN's approach to comments and <a
 								href="/newsguidelines"> <u>site guidelines</u>
